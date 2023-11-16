@@ -6,14 +6,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
+
 import br.com.devrmv.combatCalculations.CombatCalculations;
 import br.com.devrmv.interfaces.ICharacter;
 import br.com.devrmv.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class Main {
 
     public static void main(String[] args) {
+        Logger LOGGER = LoggerFactory.getLogger(Main.class);
         Scanner sc = new Scanner(System.in);
         String nickName = "";
         int attack, defense, damage = 0;
@@ -23,10 +27,12 @@ public class Main {
 
         System.out.println("Bem vindo ao AT de Fundamentos de Java!");
         System.out.print("\nO que deseja?\n1-Jogar\n2-Ver relatório\nOpcão: ");
+
         try {
             option = sc.nextInt();
+            LOGGER.debug("Foi inserido um numero inteiro nas opcoes");
         } catch (Exception e) {
-            System.out.println("Ocorreu um erro.");// TODO: handle exception
+            LOGGER.error(e.toString());
         }
         sc.nextLine();
 
@@ -36,7 +42,7 @@ public class Main {
                 try {
                     nickName = sc.nextLine();
                 } catch (Exception e) {
-                    System.out.println("Ocorreu um erro ao inserir o nickname");
+                    LOGGER.error(e.toString());
                 }
                 System.out.println("\nMuito bem " + nickName + "! Agora, escolha sua classe...");
                 System.out.println("\n1-Fighter\n2-Paladin\n3-Barbarian");
@@ -118,8 +124,9 @@ public class Main {
                     writer.println(date + ";" + selectedClass.getClass().getSimpleName() + ";" + result + ";"
                             + randomMonster.getClass().getSimpleName() + ";" + round);
                     writer.close();
+                    LOGGER.info("Log de combate salvo com sucesso.");
                 } catch (Exception e) {
-                    System.out.println("Erro ao gravar log de combate!");
+                    LOGGER.error(e.toString());
                 }
 
                 sc.close();
@@ -131,7 +138,7 @@ public class Main {
                 try {
                     nickName = sc.nextLine();
                 } catch (Exception e) {
-                    System.out.println("Ocorreu um erro ao inserir o nickname");
+                    LOGGER.error(e.toString());
                 }
 
                 File file = new File("temp/" + nickName + ".csv");
@@ -142,7 +149,6 @@ public class Main {
                     while (fileScanner.hasNextLine()) {
                         String line = fileScanner.nextLine();
                         String[] parts = line.split(";");
-
                         LogObject record = new LogObject();
                         record.setDate(parts[0]);
                         record.setSelectecClass(parts[1]);
@@ -154,7 +160,7 @@ public class Main {
                     }
                     fileScanner.close();
                 } catch (Exception e) {
-                    System.out.println("Arquivo não encontrado.");
+                    LOGGER.error(e.toString());
                 }
 
                 final int[] maxHeroCount = { 0 };
@@ -192,6 +198,10 @@ public class Main {
                 System.out.println("Herói mais jogado: " + mostPlayedHero[0]);
                 System.out.println("Monstro mais enfrentado: " + mostFacedMonster[0]);
                 System.out.println("Pontuação total: " + totalPoints[0]);
+                break;
+            }
+            default:{
+                LOGGER.debug("O switch foi percorrido sem entrar nas opcoes 1 ou 2");
             }
         }
     }
