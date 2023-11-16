@@ -2,7 +2,7 @@ package br.com.devrmv.combatCalculations;
 import br.com.devrmv.interfaces.ICharacter;
 
 public abstract class CombatCalculations {
-	static int d10() {
+	public static int d10() {
 		return (int) Math.floor(Math.random() * 10 + 1);
 	}
 
@@ -30,9 +30,6 @@ public abstract class CombatCalculations {
 		return (int) d10() + def + agi;
 	}
 
-	public static int damage(int damageFactor, int str) {
-		return (int) damageFactor + str;
-	}
 
 	public static int initiative(int agi) {
 		return (int) d10() + agi;
@@ -51,7 +48,6 @@ public abstract class CombatCalculations {
 			System.out.println(
 					"HP atual de " + randomMonster.getClass().getSimpleName() + " " + randomMonster.getHitPoints());
 		}
-
 	}
 
 	public static void monsterAttack(ICharacter selectedClass, ICharacter randomMonster) {
